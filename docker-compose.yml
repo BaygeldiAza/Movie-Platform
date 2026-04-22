@@ -1,0 +1,31 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: movie_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: BAY_18geldi_18
+      MYSQL_DATABASE: free_movie_db
+    ports:
+      - "3307:3306"
+    networks:
+      - movie_network
+
+  backend:
+    build: ./backend
+    container_name: movie_backend
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - movie_network
+
+networks:
+  movie_network:
+
+volumes:
+  mysql_data:
